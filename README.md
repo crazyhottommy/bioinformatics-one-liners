@@ -401,3 +401,75 @@ cat Homo_sapiens_assembly19.fasta | gawk '/^>/ { b=gensub(" dna:.+", "", "g", $0
 ```bash
 mkdir blah && cd $_
 ```
+### cut out columns based on column names in another file
+
+http://crazyhottommy.blogspot.com/2016/10/cutting-out-500-columns-from-26g-file.html
+
+```bash
+#! /bin/bash
+
+set -e
+set -u
+set -o pipefail
+
+#### Author: Ming Tang (Tommy)
+#### Date 09/29/2016
+#### I got the idea from this stackOverflow post http://stackoverflow.com/questions/11098189/awk-extract-columns-from-file-based-on-header-selected-from-2nd-file
+
+# show help
+show_help(){
+cat << EOF
+  This is a wrapper extracting columns of a (big) dataframe based on a list of column names in another
+  file. The column names must be one per line. The output will be stdout. For small files < 2G, one 
+  can load it into R and do it easily, but when the file is big > 10G. R is quite cubersome. 
+  Using unix commands on the other hand is better because files do not have to be loaded into memory at once.
+  e.g. subset a 26G size file for 700 columns takes around 30 mins. Memory footage is very low ~4MB.
+
+  usage: ${0##*/} -f < a dataframe  > -c < colNames> -d <delimiter of the file>
+        -h display this help and exit.
+		-f the file you want to extract columns from. must contain a header with column names.
+		-c a file with the one column name per line.
+		-d delimiter of the dataframe: , or \t. default is tab.  
+		
+		e.g. 
+		
+		for tsv file:
+			${0##*/} -f mydata.tsv -c colnames.txt -d $'\t' or simply ommit the -d, default is tab.
+		
+		for csv file: Note you have to specify -d , if your file is csv, otherwise all columns will be cut out.
+			${0##*/} -f mydata.csv -c colnames.txt -d ,
+        
+EOF
+}
+
+## if there are no arguments provided, show help
+if [[ $# == 0 ]]; then show_help; exit 1; fi
+
+while getopts ":hf:c:d:" opt; do
+  case "$opt" in
+    h) show_help;exit 0;;
+    f) File2extract=$OPTARG;;
+    c) colNames=$OPTARG;;
+    d) delim=$OPTARG;;
+    '?') echo "Invalid option $OPTARG"; show_help >&2; exit 1;;
+  esac
+done
+	
+
+## set up the default delimiter to be tab, Note the way I specify tab 
+
+delim=${delim:-$'\t'}
+
+## get the number of columns in the data frame that match the column names in the colNames file.
+## change the output to 2,5,6,22,... and get rid of the last comma  so cut -f can be used
+ 
+cols=$(head -1 "${File2extract}" | tr "${delim}" "\n" | grep -nf "${colNames}" | sed 's/:.*$//' | tr "\n" "," | sed 's/,$//')
+
+## cut out the columns 
+cut -d"${delim}" -f"${cols}" "${File2extract}"
+```
+or use [csvtk](https://github.com/shenwei356/csvtk) from Shen Wei:  
+
+```bash
+csvtk cut -t -f $(paste -s -d , list.txt) data.tsv
+```
