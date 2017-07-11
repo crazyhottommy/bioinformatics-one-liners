@@ -478,3 +478,13 @@ csvtk cut -t -f $(paste -s -d , list.txt) data.tsv
 ```bash
 awk '{print $0 "\t" FILENAME}' *bed 
 ```
+
+### add or remove chr from the start of each line
+
+```bash
+# add chr
+sed 's/^/chr/' my.bed
+
+# remove chr
+sed 's/^chr//' my.bed
+```
