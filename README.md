@@ -47,7 +47,7 @@ zcat file.fastq.gz | paste - - - - | perl -ane 'print ">$F[0]\n$F[2]\n";' | gzip
 samtools view file.bam | perl -F'\t' -ane '$strand=($F[1]&16)?"-":"+";$length=1;$tmp=$F[5];$tmp =~ s/(\d+)[MD]/$length+=$1/eg;print "$F[2]\t$F[3]\t".($F[3]+$length)."\t$F[0]\t0\t$strand\n";' > file.bed
 ```
 
-####bam2wig
+#### bam2wig
 
 ```bash
 samtools mpileup -BQ0 file.sorted.bam | perl -pe '($c, $start, undef, $depth) = split;if ($c ne $lastC || $start != $lastStart+1) {print "fixedStep chrom=$c start=$start step=1 span=1\n";}$_ = $depth."\n";($lastC, $lastStart) = ($c, $start);' | gzip -c > file.wig.gz
@@ -472,4 +472,9 @@ or use [csvtk](https://github.com/shenwei356/csvtk) from Shen Wei:
 
 ```bash
 csvtk cut -t -f $(paste -s -d , list.txt) data.tsv
+```
+#### merge all bed files and add a column for the filename.
+
+```bash
+awk '{print $0 "\t" FILENAME}' *bed 
 ```
