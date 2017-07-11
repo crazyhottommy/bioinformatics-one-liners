@@ -485,6 +485,9 @@ awk '{print $0 "\t" FILENAME}' *bed
 # add chr
 sed 's/^/chr/' my.bed
 
+# or
+awk 'BEGIN {OFS = "\t"} {$1="chr"$1; print}'
+
 # remove chr
 sed 's/^chr//' my.bed
 ```
