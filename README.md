@@ -98,10 +98,18 @@ samtools view -H yourFile.bam | grep "\@SQ" | sed 's/^.*SN://g' | cut -f 1 | xar
 samtools view -H yourFile.bam | grep "\@SQ" | sed 's/^.*SN://g' | cut -f 1 | perl -ane 'system("cat tmp.$F[0].bcf >> yourFile.vcf");'
 ```
 
-####split large file by id/label/column
+#### split large file by id/label/column
 
 ```bash
 awk '{print >> $1; close($1)}' input_file
+```
+#### split a bed file by chromosome:
+
+```bash
+cat nexterarapidcapture_exome_targetedregions_v1.2.bed | sort -k1,1 -k2,2n | sed 's/^chr//' | awk '{close(f);f=$1}{print > f".bed"}'
+
+#or
+awk '{print $0 >> $1".bed"}' example.bed
 ```
 
 #### sort vcf file with header
