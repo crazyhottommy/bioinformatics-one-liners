@@ -499,3 +499,8 @@ awk 'BEGIN {OFS = "\t"} {$1="chr"$1; print}'
 # remove chr
 sed 's/^chr//' my.bed
 ```
+### check if a tsv files have the same number of columns for all rows
+
+```bash
+awk '{print NF}' test.tsv | sort -nu | head -n 1
+```
