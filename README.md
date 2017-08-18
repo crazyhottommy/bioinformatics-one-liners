@@ -504,3 +504,13 @@ sed 's/^chr//' my.bed
 ```bash
 awk '{print NF}' test.tsv | sort -nu | head -n 1
 ```
+
+### Parallelized samtools mpileup 
+
+https://www.biostars.org/p/134331/
+
+```bash
+BAM="yourFile.bam"
+REF="reference.fasta"
+samtools view -H $BAM | grep "\@SQ" | sed 's/^.*SN://g' | cut -f 1 | xargs -I {} -n 1 -P 24 sh -c "samtools mpileup -BQ0 -d 100000 -uf $REF -r \"{}\" $BAM | bcftools call -cv > \"{}\".vcf"
+```
