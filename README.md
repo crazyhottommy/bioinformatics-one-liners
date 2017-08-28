@@ -516,7 +516,7 @@ samtools view -H $BAM | grep "\@SQ" | sed 's/^.*SN://g' | cut -f 1 | xargs -I {}
 ```
 ### convert multiple lines to a single line
 
-This is better than `tr "\n" "\t" because somtimes I do not want to convert the last newline to tab.
+This is better than `tr "\n" "\t"` because somtimes I do not want to convert the last newline to tab.
 
 ```bash
 cat myfile.txt | paste -s 
