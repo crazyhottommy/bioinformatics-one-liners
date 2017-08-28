@@ -514,3 +514,10 @@ BAM="yourFile.bam"
 REF="reference.fasta"
 samtools view -H $BAM | grep "\@SQ" | sed 's/^.*SN://g' | cut -f 1 | xargs -I {} -n 1 -P 24 sh -c "samtools mpileup -BQ0 -d 100000 -uf $REF -r \"{}\" $BAM | bcftools call -cv > \"{}\".vcf"
 ```
+### convert multiple lines to a single line
+
+This is better than `tr "\n" "\t" because somtimes I do not want to convert the last newline to tab.
+
+```bash
+cat myfile.txt | paste -s 
+```
