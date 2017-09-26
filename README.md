@@ -521,3 +521,19 @@ This is better than `tr "\n" "\t"` because somtimes I do not want to convert the
 ```bash
 cat myfile.txt | paste -s 
 ```
+
+### merge multiple files with same header by keeping the header of the first file
+I usually do it in R, but like the quick solution.
+
+https://stackoverflow.com/questions/16890582/unixmerge-multiple-csv-files-with-same-header-by-keeping-the-header-of-the-firs
+
+```bash
+awk 'FNR==1 && NR!=1{next;}{print}' *.csv 
+
+# or
+
+awk '
+    FNR==1 && NR!=1 { while (/^<header>/) getline; }
+    1 {print}
+' file*.txt >all.txt
+```
