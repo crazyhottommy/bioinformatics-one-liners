@@ -566,3 +566,9 @@ chr10:100182422-100182522	0	0	0
 chr10:100184498-100184704	0	0	0
 
 ```
+### extract PASS calls from vcf file
+
+```
+cat my.vcf | awk -F '\t' '{if($0 ~ /\#/) print; else if($7 == "PASS") print}' > my_PASS.vcf
+
+```
