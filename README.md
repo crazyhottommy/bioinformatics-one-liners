@@ -572,3 +572,14 @@ chr10:100184498-100184704	0	0	0
 cat my.vcf | awk -F '\t' '{if($0 ~ /\#/) print; else if($7 == "PASS") print}' > my_PASS.vcf
 
 ```
+
+### replace a pattern in a specific column
+
+```
+## column5 
+awk '{gsub(pattern,replace,$5)}1' in.file
+
+## http://bioinf.shenwei.me/csvtk/usage/#replace
+csvtk replace -f 5 -p pattern -r replacement 
+
+```
