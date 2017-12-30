@@ -583,3 +583,15 @@ awk '{gsub(pattern,replace,$5)}1' in.file
 csvtk replace -f 5 -p pattern -r replacement 
 
 ```
+### move a process to a screen session
+
+https://www.linkedin.com/pulse/move-running-process-screen-bruce-werdschinski/
+
+```
+1. Suspend: Ctrl+z
+2. Resume: bg
+3. Disown: disown %1
+4. Launch screen
+5. Find pid: prep BLAH
+6. Reparent process: reptyr ###
+```
