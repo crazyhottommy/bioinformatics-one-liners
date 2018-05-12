@@ -595,3 +595,23 @@ https://www.linkedin.com/pulse/move-running-process-screen-bruce-werdschinski/
 5. Find pid: prep BLAH
 6. Reparent process: reptyr ###
 ```
+
+### count uinque values in a column and put in a new 
+
+https://www.unix.com/unix-for-beginners-questions-and-answers/270526-awk-count-unique-element-array.html
+
+```
+# input
+blabla_1 A,B,C,C
+blabla_2 A,E,G
+blabla_3 R,Q,A,B,C,R,Q
+
+# output
+blabla_1 3
+blabla_2 3
+blabla_3 5
+
+
+awk '{split(x,C); n=split($2,F,/,/); for(i in F) if(C[F[i]]++) n--; print $1, n}' file
+
+```
