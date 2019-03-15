@@ -630,3 +630,11 @@ or 5kb flanking tss
 zcat gencode.v29lift37.annotation.gtf.gz | awk '$3=="gene" {print $0}' | grep protein_coding | awk -v OFS="\t" '{if ($7=="+") {print $1, $4, $4+5000} else {print $1, $5-5000, $5}}' > promoters.bed
 ```
 caveat: some genes are at the end of the chromosomes, add or minus 5000 may go beyond the point, use [`bedtools slop`](https://bedtools.readthedocs.io/en/latest/content/tools/slop.html) with a genome size file to avoid that.
+
+download `fetch_chromsize` from http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/
+
+```bash
+fetchChromSizes hg19 > chrom_size.txt
+
+zcat gencode.v29lift37.annotation.gtf.gz | awk '$3=="gene" {print $0}' |  awk -v OFS="\t" '{if ($7=="+") {print $1, $4, $4+1} else {print $1, $5-1, $5}} | bedtools slop -i - -g chrom_size.txt -b 5000 > promoter_5kb.bed
+```
