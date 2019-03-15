@@ -615,3 +615,18 @@ blabla_3 5
 awk '{split(x,C); n=split($2,F,/,/); for(i in F) if(C[F[i]]++) n--; print $1, n}' file
 
 ```
+
+### get the promoter regions from a gtf file
+
+https://twitter.com/David_McGaughey/status/1106371758142173185
+
+Create TSS bed from GTF in one line: 
+```bash
+zcat gencode.v29lift37.annotation.gtf.gz | awk '$3=="gene" {print $0}' | grep protein_coding | awk -v OFS="\t" '{if ($7=="+") {print $1, $4, $4+1} else {print $1, $5-1, $5}}' > tss.bed
+
+or 5kb flanking tss
+
+```bash
+zcat gencode.v29lift37.annotation.gtf.gz | awk '$3=="gene" {print $0}' | grep protein_coding | awk -v OFS="\t" '{if ($7=="+") {print $1, $4, $4+5000} else {print $1, $5-5000, $5}}' > promoters.bed
+```
+caveat: some genes are at the end of the chromosomes, add or minus 5000 may go beyond the point, use [`bedtools slop`](https://bedtools.readthedocs.io/en/latest/content/tools/slop.html) with a genome size file to avoid that.
