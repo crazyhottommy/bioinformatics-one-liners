@@ -623,7 +623,7 @@ https://twitter.com/David_McGaughey/status/1106371758142173185
 Create TSS bed from GTF in one line: 
 ```bash
 zcat gencode.v29lift37.annotation.gtf.gz | awk '$3=="gene" {print $0}' | grep protein_coding | awk -v OFS="\t" '{if ($7=="+") {print $1, $4, $4+1} else {print $1, $5-1, $5}}' > tss.bed
-
+```
 or 5kb flanking tss
 
 ```bash
