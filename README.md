@@ -636,5 +636,5 @@ download `fetchChromSizes` from http://hgdownload.soe.ucsc.edu/admin/exe/linux.x
 ```bash
 fetchChromSizes hg19 > chrom_size.txt
 
-zcat gencode.v29lift37.annotation.gtf.gz | awk '$3=="gene" {print $0}' |  awk -v OFS="\t" '{if ($7=="+") {print $1, $4, $4+1} else {print $1, $5-1, $5}} | bedtools slop -i - -g chrom_size.txt -b 5000 > promoter_5kb.bed
+zcat gencode.v29lift37.annotation.gtf.gz | awk '$3=="gene" {print $0}' |  awk -v OFS="\t" '{if ($7=="+") {print $1, $4, $4+1} else {print $1, $5-1, $5}}' | bedtools slop -i - -g chrom_size.txt -b 5000 > promoter_5kb.bed
 ```
