@@ -631,7 +631,7 @@ zcat gencode.v29lift37.annotation.gtf.gz | awk '$3=="gene" {print $0}' | grep pr
 ```
 caveat: some genes are at the end of the chromosomes, add or minus 5000 may go beyond the point, use [`bedtools slop`](https://bedtools.readthedocs.io/en/latest/content/tools/slop.html) with a genome size file to avoid that.
 
-download `fetch_chromsize` from http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/
+download `fetchChromSizes` from http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/
 
 ```bash
 fetchChromSizes hg19 > chrom_size.txt
