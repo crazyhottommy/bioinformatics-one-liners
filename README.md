@@ -638,3 +638,14 @@ fetchChromSizes hg19 > chrom_size.txt
 
 zcat gencode.v29lift37.annotation.gtf.gz | awk '$3=="gene" {print $0}' |  awk -v OFS="\t" '{if ($7=="+") {print $1, $4, $4+1} else {print $1, $5-1, $5}}' | bedtools slop -i - -g chrom_size.txt -b 5000 > promoter_5kb.bed
 ```
+
+### reverse one column of a txt file
+this is useful when you want to reverse a DNA string from 5'--->3' and add cloning site.
+
+reverse column 3 and put it to column5
+```bash
+awk -v OFS="\t" '{"echo "$3 "| rev" | getline $5}{print $0}' 
+
+#or use perl reverse second column
+perl -lane 'BEGIN{$,="\t"}{$rev=reverse $F[2];print $F[0],$F[1],$rev,$F[3]}
+```
