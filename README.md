@@ -640,7 +640,6 @@ zcat gencode.v29lift37.annotation.gtf.gz | awk '$3=="gene" {print $0}' |  awk -v
 ```
 
 ### reverse one column of a txt file
-this is useful when you want to reverse a DNA string from 5'--->3' and add cloning site.
 
 reverse column 3 and put it to column5
 ```bash
