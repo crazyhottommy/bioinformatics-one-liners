@@ -674,3 +674,10 @@ awk -v OFS="\t" '{"echo "$3 "| rev" | getline $5}{print $0}'
 #or use perl reverse second column
 perl -lane 'BEGIN{$,="\t"}{$rev=reverse $F[2];print $F[0],$F[1],$rev,$F[3]}
 ```
+
+### get the full path of a file
+
+```bash
+realpath file.txt
+readlink -f file.txt 
+```
