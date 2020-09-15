@@ -681,3 +681,9 @@ perl -lane 'BEGIN{$,="\t"}{$rev=reverse $F[2];print $F[0],$F[1],$rev,$F[3]}
 realpath file.txt
 readlink -f file.txt 
 ```
+
+### pugz unizp in parallel
+
+https://github.com/Piezoid/pugz
+
+Contrary to the pigz program which does single-threaded decompression (see https://github.com/madler/pigz/blob/master/pigz.c#L232), pugz found a way to do truly parallel decompression.
