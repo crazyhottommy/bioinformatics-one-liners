@@ -687,3 +687,18 @@ readlink -f file.txt
 https://github.com/Piezoid/pugz
 
 Contrary to the pigz program which does single-threaded decompression (see https://github.com/madler/pigz/blob/master/pigz.c#L232), pugz found a way to do truly parallel decompression.
+
+### run singularity on a multi-user HPC
+
+```bash
+#! /bin/bash
+set -euo pipefail
+
+module load singularity
+# Need a unique /tmp for this job for /tmp/rstudio-rsession & /tmp/rstudio-server
+WORKDIR=/liulab/${USER}/singularity_images
+mkdir -m 700 -p ${WORKDIR}/tmp2
+mkdir -m 700 -p ${WORKDIR}/tmp
+
+PASSWORD='xyz' singularity exec --bind "${WORKDIR}/tmp2:/var/run/rstudio-server" --bind "${WORKDIR}/tmp:/tmp" --bind="/liulab/${USER}" geospatial_4.0.2.simg rserver --www-port 8888 --auth-none=0  --auth-pam-helper-path=pam-helper  --www-address=127.0.0.1
+```
