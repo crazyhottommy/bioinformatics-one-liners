@@ -702,3 +702,14 @@ mkdir -m 700 -p ${WORKDIR}/tmp
 
 PASSWORD='xyz' singularity exec --bind "${WORKDIR}/tmp2:/var/run/rstudio-server" --bind "${WORKDIR}/tmp:/tmp" --bind="/liulab/${USER}" geospatial_4.0.2.simg rserver --www-port 8888 --auth-none=0  --auth-pam-helper-path=pam-helper  --www-address=127.0.0.1
 ```
+
+### add ServerAliveInterval 60 to avoid dropping from your ssh session
+
+Add the following on the top of your `~/.ssh/config` to prevent drop off the ssh session
+
+```
+Host *
+ ServerAliveInterval 60
+ 
+```
+I use `screen`/`tmux` and also [mosh](https://mosh.org/) as well.
